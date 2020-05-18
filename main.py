@@ -26,3 +26,8 @@ def run_server_search():
 
 def main():
     bootstrap()
+    run_server_search()
+
+
+if __name__ == '__main__':
+    main()
