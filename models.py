@@ -7,7 +7,7 @@ class Server(Base):
     id = Column(Integer, primary_key=True)
 
     name = Column(String)
-    sever = Column(String)
+    server = Column(String)
 
     def __str__(self):
         return f'Server(name={self.name})'
