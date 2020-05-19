@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 Base = declarative_base()
-engine = create_engine("sqlite:///DB_SERVERS")
+engine = create_engine("sqlite:///SERVERS_INFO.db")
 Session = sessionmaker(bind=engine, expire_on_commit=False)
 
 
