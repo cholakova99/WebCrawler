@@ -4,6 +4,7 @@ from db import session_scope
 from bootstrap import bootstrap
 from models import Server
 
+to_visit_sites = []
 
 def server_search(to_visit_sites, start_point):
 
@@ -17,8 +18,10 @@ def server_search(to_visit_sites, start_point):
             server_info = r.headers.get("server")
             if server_info is None:
                 server_info = "NO SERVER FOUND"
-            ser = Server(name=helper, server=server_info)
-            session.add(ser)
+            info = session.query(Server).filter(Server.name == helper).one_or_none()
+            if info is None:
+                ser = Server(name=helper, server=server_info)
+                session.add(ser)
             session.commit()
 
             for link in soup.find_all('a'):
@@ -33,14 +36,14 @@ def server_search(to_visit_sites, start_point):
                         to_visit_sites.append(to_be_added)
                         print(to_be_added)
 
-    yield to_visit_sites
-
 
 def run_server_search():
-    start_point = "http://register.start.bg/"
-    to_visit_sites = []
-    to_visit_sites.append(start_point)
-    to_visit_sites = list(server_search(to_visit_sites, start_point))
+    if len(to_visit_sites) == 0:
+        start_point = input("Please, enter link for the start point: ")
+        to_visit_sites.append(start_point)
+    else:
+        start_point = to_visit_sites[0]
+    server_search(to_visit_sites, start_point)
 
 
 def main():
